@@ -5,13 +5,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
-from sklearn.model_selection import train_test_split
 from pathlib import Path
 import cv2
 import glob
 from tqdm import tqdm
-import json
-import yaml
 
 # Configuración de visualización
 plt.style.use('seaborn-v0_8-whitegrid')
@@ -61,13 +58,12 @@ def load_image_paths():
 
 
 
-def load_annotations(ann_dir, annotation_type="quad"):
+def load_annotations(ann_dir):
     """
     Carga las anotaciones desde los archivos .txt
 
     Args:
         ann_dir: Directorio que contiene los archivos de anotación
-        annotation_type: Tipo de anotación ('obb' o 'quad')
 
     Returns:
         Un diccionario con las anotaciones por imagen
@@ -86,47 +82,29 @@ def load_annotations(ann_dir, annotation_type="quad"):
         for line in lines:
             parts = line.strip().split()
 
-            if annotation_type == "obb":
-                # Formato OBB: [clase] [x_centro] [y_centro] [ancho] [alto] [ángulo] [tasa_oclusión]
-                if len(parts) < 10:
-                    annotation = {
-                        'class': 'small-vehicle' if parts[0] == '0' else 'large-vehicle',
-                        'x_center': float(parts[1]),
-                        'y_center': float(parts[2]),
-                        'width': float(parts[3]),
-                        'height': float(parts[4]),
-                        'angle': float(parts[5]),
-                        'occlusion': int(parts[6])
-                    }
-                    image_annotations.append(annotation)
-
-            else:  # quad
-                # Formato Quad: [x1] [y1] [x2] [y2] [x3] [y3] [x4] [y4] [clase] [tasa_oclusión]
-                if len(parts) >= 10:
-                    annotation = {
-                        'class': 'small-vehicle' if parts[8] == 'small-vehicle' else 'large-vehicle',
-                        'coordinates': [
-                            (float(parts[0]), float(parts[1])),
-                            (float(parts[2]), float(parts[3])),
-                            (float(parts[4]), float(parts[5])),
-                            (float(parts[6]), float(parts[7]))
-                        ],
-                        'occlusion': int(parts[9])
-                    }
-                    image_annotations.append(annotation)
+            annotation = {
+                'class': 'small-vehicle' if parts[8] == 'small-vehicle' else 'large-vehicle',
+                'coordinates': [
+                    (float(parts[0]), float(parts[1])),
+                    (float(parts[2]), float(parts[3])),
+                    (float(parts[4]), float(parts[5])),
+                    (float(parts[6]), float(parts[7]))
+                ],
+                'occlusion': int(parts[9])
+            }
+            image_annotations.append(annotation)
 
         annotations[image_id] = image_annotations
 
     return annotations
 
 
-def create_annotation_dataframe(annotations, annotation_type="quad"):
+def create_annotation_dataframe(annotations):
     """
     Convierte las anotaciones a un DataFrame para análisis
 
     Args:
         annotations: Diccionario de anotaciones
-        annotation_type: Tipo de anotación ('obb' o 'quad')
 
     Returns:
         DataFrame con las anotaciones
@@ -141,29 +119,19 @@ def create_annotation_dataframe(annotations, annotation_type="quad"):
                 'occlusion': ann['occlusion']
             }
 
-            if annotation_type == "obb":
-                row.update({
-                    'x_center': ann['x_center'],
-                    'y_center': ann['y_center'],
-                    'width': ann['width'],
-                    'height': ann['height'],
-                    'angle': ann['angle'],
-                    'area': ann['width'] * ann['height']
-                })
-            else:  # quad
-                # Calcular área aproximada del cuadrilátero
-                coords = np.array(ann['coordinates'])
-                area = cv2.contourArea(coords.astype(np.float32))
+            # Calcular área aproximada del cuadrilátero
+            coords = np.array(ann['coordinates'])
+            area = cv2.contourArea(coords.astype(np.float32))
 
-                # Calcular centro aproximado
-                x_center = np.mean(coords[:, 0])
-                y_center = np.mean(coords[:, 1])
+            # Calcular centro aproximado
+            x_center = np.mean(coords[:, 0])
+            y_center = np.mean(coords[:, 1])
 
-                row.update({
-                    'x_center': x_center,
-                    'y_center': y_center,
-                    'area': area
-                })
+            row.update({
+                'x_center': x_center,
+                'y_center': y_center,
+                'area': area
+            })
 
             data.append(row)
 
@@ -501,15 +469,15 @@ def main():
 
     # 2. Cargar anotaciones por conjunto
     print("\nCargando anotaciones...")
-    annotations_train = load_annotations(TRAIN_ANN_DIR, "quad")
-    annotations_val = load_annotations(VAL_ANN_DIR, "quad")
-    annotations_test = load_annotations(TEST_ANN_DIR, "quad")
+    annotations_train = load_annotations(TRAIN_ANN_DIR)
+    annotations_val = load_annotations(VAL_ANN_DIR)
+    annotations_test = load_annotations(TEST_ANN_DIR)
 
     # 3. Crear DataFrames para análisis
     print("\nCreando DataFrames para análisis...")
-    df_train = create_annotation_dataframe(annotations_train, "quad")
-    df_val = create_annotation_dataframe(annotations_val, "quad")
-    df_test = create_annotation_dataframe(annotations_test, "quad")
+    df_train = create_annotation_dataframe(annotations_train)
+    df_val = create_annotation_dataframe(annotations_val)
+    df_test = create_annotation_dataframe(annotations_test)
 
     # Combinar todos los DataFrames para análisis global
     df_all = pd.concat([df_train, df_val, df_test])
