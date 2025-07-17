@@ -82,6 +82,7 @@ def load_annotations(ann_dir):
         for line in lines:
             parts = line.strip().split()
 
+            # Formato Quad: [x1] [y1] [x2] [y2] [x3] [y3] [x4] [y4] [clase] [tasa_oclusión]
             annotation = {
                 'class': 'small-vehicle' if parts[8] == 'small-vehicle' else 'large-vehicle',
                 'coordinates': [
