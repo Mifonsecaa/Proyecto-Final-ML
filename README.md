@@ -1,9 +1,6 @@
 # 🚀 Proyecto Final de Machine Learning
 
-Este repositorio contiene el código y los recursos para el proyecto final del curso de Machine Learning. El objetivo es [**Determinar cual tipo de etiqueta (cajas delimitadoras orientadas vs.
-cuadriláteros arbitrarios) maximiza la precisión en la detección de vehículos
-en escenarios aéreos complejos, evaluando la efectividad de según el
-tamaño del vehículo (pequeño/grande).**].
+Este repositorio contiene el código y los recursos para el proyecto final del curso de Machine Learning. El objetivo es [**Determinar qué modelo es mejor en la detección precisa de vehículos en escenarios complejos, y cómo varía esta efectividad según el tamaño del vehículo.**].
 
 ---
 
