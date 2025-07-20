@@ -1,0 +1,4 @@
+IoU metric: bbox
+ Average Precision (AP) @[ IoU=0.50 | area= all | maxDets=100 ] = 0.696250
+ Average Precision (AP) @[ IoU=0.50:0.95 | area= all | maxDets=100 ] = 0.457740
+ Average Recall (AR) @[ IoU=0.50:0.95 | area= all | maxDets=100 ] = 0.625880
