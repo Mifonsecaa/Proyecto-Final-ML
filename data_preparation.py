@@ -115,7 +115,7 @@ def create_annotation_dataframe(annotations):
     for image_id, image_annotations in annotations.items():
         for ann in image_annotations:
             row = {
-                'image_id': image_id,
+                'image_id': image_id + '.png',
                 'class': ann['class'],
                 'occlusion': ann['occlusion']
             }
