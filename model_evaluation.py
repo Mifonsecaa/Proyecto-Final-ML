@@ -15,7 +15,7 @@ from engine import evaluate
 
 # --- Paths ---
 BASE_DIR = Path(__file__).resolve().parent
-ROOT = BASE_DIR.parent / 'Proyecto Final ML' / 'data'/'annotations'
+ROOT = BASE_DIR.parent / 'Proyecto-Final-ML' / 'data'/'annotations'
 DATA_ROOT = BASE_DIR.parent / 'Proyecto Final ML' / 'data' / 'VSAIv1' / 'split_ss_444_lsv'
 TEST_IMAGES_DIR = os.path.join(DATA_ROOT, "test", "images")
 TEST_ANN_FILE = os.path.join(ROOT, "annotations_test.json")

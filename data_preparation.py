@@ -19,7 +19,7 @@ plt.rcParams['font.size'] = 12
 
 # Rutas de datos (ajustadas a la estructura real del dataset)
 BASE_DIR = Path(__file__).resolve().parent
-DATA_ROOT = BASE_DIR.parent / 'Proyecto Final ML'/ 'data' / 'VSAIv1' / 'split_ss_444_lsv'
+DATA_ROOT = BASE_DIR.parent / 'Proyecto-Final-ML'/ 'data' / 'VSAIv1' / 'split_ss_444_lsv'
 TRAIN_DIR = os.path.join(DATA_ROOT, "train")
 VAL_DIR = os.path.join(DATA_ROOT, "val")
 TEST_DIR = os.path.join(DATA_ROOT, "test")
