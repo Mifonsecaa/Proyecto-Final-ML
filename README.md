@@ -1,90 +1,98 @@
-# 🚀 Proyecto Final de Machine Learning
+# Proyecto Final de Machine Learning
 
-Este repositorio contiene el código y los recursos para el proyecto final del curso de Machine Learning. El objetivo es [**Determinar qué modelo es mejor en la detección precisa de vehículos en escenarios complejos, y cómo varía esta efectividad según el tamaño del vehículo.**].
+## Descripción del Proyecto
 
----
+Este repositorio alberga el proyecto final del curso de Machine Learning, centrado en la **detección de vehículos en escenarios complejos**. El objetivo principal es evaluar la eficacia de diferentes modelos de detección de objetos, específicamente Faster R-CNN, RetinaNet y YOLOv5, y analizar cómo su rendimiento varía en función del tamaño del vehículo (pequeño o grande) y el nivel de oclusión.
 
-## ⚙️ Requisitos Previos
+El proyecto aborda la preparación de datos, el entrenamiento de modelos y la evaluación de su rendimiento utilizando métricas estándar de detección de objetos.
 
-Asegúrate de tener instalado lo siguiente:
-* Python 3.8 o superior
-* pip (manejador de paquetes de Python)
+## Características Principales
 
----
+*   **Detección de Objetos**: Implementación y evaluación de modelos de vanguardia como Faster R-CNN, RetinaNet y YOLOv5 para la detección de vehículos.
+*   **Análisis de Datos**: Procesamiento y análisis del dataset VSAIv1, incluyendo la carga de imágenes, el parseo de anotaciones (cuadriláteros), y la derivación de características como el tamaño del vehículo y el nivel de oclusión.
+*   **Entrenamiento de Modelos**: Configuración de entornos de entrenamiento con datasets personalizados y técnicas de aumento de datos (e.g., volteo horizontal).
+*   **Evaluación Exhaustiva**: Medición del rendimiento de los modelos utilizando métricas de COCO (Average Precision y Average Recall) para diferentes clases de vehículos y niveles de oclusión.
+*   **Tecnologías**: Desarrollado principalmente con Python, utilizando bibliotecas clave como PyTorch, torchvision, OpenCV, scikit-learn, pandas, numpy, matplotlib y seaborn.
 
-## 🛠️ Instalación y Configuración
+## Instalación y Configuración
 
-Sigue estos pasos para configurar el entorno del proyecto.
+Para configurar el entorno del proyecto y ejecutar los scripts, siga los siguientes pasos:
 
-**1. Clonar el Repositorio**
+### 1. Clonar el Repositorio
+
 ```bash
-git clone [https://github.com/Mifonsecaa/Proyecto-Final-ML.git]
+git clone https://github.com/Mifonsecaa/Proyecto-Final-ML.git
 cd Proyecto-Final-ML
 ```
 
-**2. Crear y Activar un Entorno Virtual**
+### 2. Crear y Activar un Entorno Virtual
 
-Es una buena práctica trabajar en un entorno virtual para aislar las dependencias del proyecto.
+Se recomienda el uso de un entorno virtual para gestionar las dependencias del proyecto.
 
-* **En Windows:**
-    ```bash
-    python -m venv venv
-    .\venv\Scripts\activate
-    ```
-* **En macOS y Linux:**
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
+**En Windows:**
 
-**3. Instalar Dependencias**
+```bash
+python -m venv venv
+.\venv\Scripts\activate
+```
 
-Instala todas las bibliotecas necesarias que se encuentran en `requirements.txt`.
+**En macOS y Linux:**
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Instalar Dependencias
+
+Instale todas las bibliotecas necesarias listadas en `requirements.txt`:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-**4. Descargar y Organizar el Dataset** 📥
+### 4. Descargar y Organizar el Dataset
 
-Este es el paso más importante para que los scripts funcionen correctamente.
+El dataset utilizado es VSAIv1, disponible en Kaggle. Descárguelo y organícelo según la estructura esperada por los scripts.
 
-* **Descarga el dataset** desde el siguiente enlace:
-    > **[https://www.kaggle.com/datasets/dronevision/vsaiv1/data]**
+*   **Descargar el dataset**: Acceda a [VSAIv1 Dataset en Kaggle](https://www.kaggle.com/datasets/dronevision/vsaiv1/data).
+*   Una vez descargado (ej. `dataset.zip`), descomprímalo y coloque su contenido en la ruta `Proyecto-Final-ML/data/VSAIv1/split_ss_444_lsv/`.
 
-* Una vez descargado, obtendrás un archivo comprimido (ej: `dataset.zip`). Descomprímelo.
+## Uso
 
-* Dentro del archivo descomprimido, encontrarás tres carpetas: **`train`**, **`test`** y **`val`**.
+### Preparación de Datos
 
-* **Mueve** estas tres carpetas (`train`, `test`, `val`) a la siguiente ruta exacta dentro del proyecto:
-    > `Proyecto-Final-ML/data/VSAlv1/split_ss_444_lsv/`
+El script `data_preparation.py` se encarga de cargar las imágenes y anotaciones, así como de realizar un análisis exploratorio inicial.
 
-    Si las carpetas `data`, `VSAlv1` o `split_ss_444_lsv` no existen, debes crearlas manualmente.
-
----
-
-## 📂 Estructura de Carpetas Final
-
-Para asegurarte de que todo está correcto, la estructura de tus directorios debe verse así:
-
-```
-Proyecto-Final-ML/
-|
-├── data/
-│   └── VSAlv1/
-│       └── split_ss_444_lsv/
-│           ├── train/
-│           │   ├── (carpeta imágenes y carpetas de anotaciones)...
-│           ├── test/
-│           │   ├── (carpeta imágenes y carpetas de anotaciones)...
-│           └── val/
-│               ├── (carpeta imágenes y carpetas de anotaciones)...
-|      
-├── model_train.py
-└── model_evaluation.py
-|
-├── requirements.txt    # Lista de dependencias
-└── README.md           # Este archivo
+```bash
+python data_preparation.py
 ```
 
----
+### Entrenamiento de Modelos
 
+El script `model_train.py` permite entrenar los modelos de detección de objetos configurados (Faster R-CNN, RetinaNet, YOLOv5).
+
+```bash
+python model_train.py
+```
+
+### Evaluación de Modelos
+
+Para evaluar el rendimiento de los modelos entrenados, utilice el script `model_evaluation.py`.
+
+```bash
+python model_evaluation.py
+```
+
+## Resultados y Conclusiones
+
+Los resultados de este proyecto buscan determinar qué modelo de detección de objetos (Faster R-CNN, RetinaNet, YOLOv5) ofrece el mejor rendimiento en la identificación de vehículos, prestando especial atención a la precisión en la detección de vehículos de diferentes tamaños y bajo diversas condiciones de oclusión. Las métricas de evaluación de COCO proporcionan una base cuantitativa para comparar la robustez y la eficacia de cada enfoque.
+
+## Autor
+
+Miguel Fonseca -mifonsecaa
+David Urrego - shirohigexe
+
+## Licencia
+
+Este proyecto se distribuye bajo la licencia MIT. Consulte el archivo `LICENSE` para más detalles.
