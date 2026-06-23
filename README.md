@@ -90,7 +90,7 @@ Los resultados de este proyecto buscan determinar qué modelo de detección de o
 
 ## Autor
 
-Miguel Fonseca -mifonsecaa
+Miguel Fonseca -mifonsecaa \
 David Urrego - shirohigexe
 
 ## Licencia
